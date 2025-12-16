@@ -4,6 +4,7 @@
 
 **Table of contents**
 
+* [Installation](#installation)
 * [Introduction](#introduction)
   * [Concept](#concept)
   * [Architecture](#architecture)
@@ -21,6 +22,19 @@
 
 ---
 
+## Installation
+
+To install the library, run one of the following command depending on your package manager : 
+
+**npm**
+```shell
+npm i @kanboon/normalizer
+```
+
+**yarn**
+```shell
+yarn add @kanboon/normalizer
+```
 
 ## Introduction
 
