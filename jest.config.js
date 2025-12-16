@@ -11,7 +11,7 @@ module.exports = {
     transform: {
         ...tsJestTransformCfg,
     },
-    collectCoverageFrom: ['/src/'],
+    collectCoverageFrom: ['src/**/*'],
     coverageDirectory: 'coverage',
     coveragePathIgnorePatterns: ['/node_modules/', '/dist/']
 };
