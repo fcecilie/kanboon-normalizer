@@ -13,7 +13,7 @@ export class Normalizer {
                 modules[modulesPriority].forEach((module) => this.addModule(module, Number(modulesPriority)));
             }
         } else {
-            throw new Error('Invalid parameter "modules".')
+            throw new Error('Invalid parameter "modules".');
         }
     }
 
@@ -33,14 +33,14 @@ export class Normalizer {
         let module: NormalizerModule | undefined = undefined;
         for (let i = 0; !module && i < priorities.length; i++) {
             const priority = priorities[i];
-            module = this.modules[priority].find((module: NormalizerModule) => module.supportsNormalization(data, context, this));
+            module = this.modules[priority].find((module: NormalizerModule) => module.supportsNormalization(data, currentContext, this));
         }
 
         if (!(module instanceof NormalizerModule)) {
             return data as T;
         }
 
-        const value = module.normalize(data, context, this);
+        const value = module.normalize(data, currentContext, this);
 
         if (currentContext.marker) {
             return {
@@ -73,26 +73,26 @@ export class Normalizer {
                 module = this.modules[priority].find((module: NormalizerModule) => module.marker === marker);
             }
 
-            if (!module && context.markerUnknownMark === 'throw') {
+            if (!module && currentContext.markerUnknownMark === 'throw') {
                 throw new Error(`No module "${marker}" found.`);
-            } else if (!module && context.markerUnknownMark === 'ignore_raw') {
+            } else if (!module && currentContext.markerUnknownMark === 'ignore_raw') {
                 return data;
-            } else if (!module && context.markerUnknownMark === 'ignore') {
+            } else if (!module && currentContext.markerUnknownMark === 'ignore') {
                 return value;
             }
         }
 
         if (module instanceof NormalizerModule) {
-            return module.denormalize(value, context, this) as T;
+            return module.denormalize(value, currentContext, this) as T;
         }
 
         for (let i = 0; !module && i < priorities.length; i++) {
             const priority = priorities[i];
-            module = this.modules[priority].find((module: NormalizerModule) => module.supportsDenormalization(value, context, this));
+            module = this.modules[priority].find((module: NormalizerModule) => module.supportsDenormalization(value, currentContext, this));
         }
 
         if (module instanceof NormalizerModule) {
-            return module.denormalize(value, context, this) as T;
+            return module.denormalize(value, currentContext, this) as T;
         }
 
         return value as T;
